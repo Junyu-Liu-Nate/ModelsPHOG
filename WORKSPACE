@@ -1,6 +1,33 @@
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "new_git_repository")
 
 
+new_local_repository(
+    name = "gflags",
+    path = "/opt/homebrew/opt/gflags",
+    build_file_content = """
+cc_library(
+    name = "gflags",
+    hdrs = glob(["include/gflags/*.h"]),
+    srcs = ["lib/libgflags.dylib"],
+    visibility = ["//visibility:public"],
+    includes = ["include"],
+)
+"""
+)
+
+new_local_repository(
+    name = "glog",
+    path = "/opt/homebrew/Cellar/glog/0.6.0",
+    build_file_content = """
+cc_library(
+    name = "glog",
+    hdrs = glob(["include/glog/*.h"]),
+    srcs = glob(["lib/libglog.dylib"]),  # Adjust with the correct path to the source files if needed
+    visibility = ["//visibility:public"],
+    includes = ["include"],
+)
+"""
+)
 
 new_git_repository(
     name = "gtest",

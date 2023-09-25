@@ -22,6 +22,14 @@ cc_library(name = "base",
                    "maputil.h",
                    "treeprinter.h",
                   ],
+           hdrs = ["fileutil.h"],
+           deps = [
+                "@glog//:glog",
+                "@gflags//:gflags",
+           ],
+           copts = [
+                "-Iexternal/gflags/include",
+           ],
            linkopts = ["-lgflags", "-lglog"],
            visibility = ["//visibility:public"])
 
