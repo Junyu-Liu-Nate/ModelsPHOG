@@ -2,7 +2,8 @@
 
 ## Install bazel (Google Build System)
 
-Execute the following instructions to get Java8 installed
+### Execute the following instructions to get Java8 installed
+**On Linux**
 
 ```
 sudo add-apt-repository ppa:webupd8team/java
@@ -10,8 +11,39 @@ sudo apt-get update
 sudo apt-get install oracle-java8-installer
 ```
 
-Download bazel
+**On mac**
+1. Download Oracle JDK from https://www.oracle.com/java/technologies/downloads/#java8
+2. Install Oracle JDK, the .dmg file
+3. Set the Java Home Environment Variable
+   - Determine the path to the new JDK installation with the following command:
+        ```
+        /usr/libexec/java_home -v 1.8
+        ```
+    - Add the JAVA_HOME environment variable to your shell profile file (usually ~/.zshrc or ~/.bash_profile), replacing [/path/to/oracle-jdk] with the path you got from the above command:
+        ```
+        echo 'export JAVA_HOME=[/path/to/oracle-jdk]' >> ~/.zshrc
+        ```
+        Or, if using Bash:
+        ```
+        echo 'export JAVA_HOME=[/path/to/oracle-jdk]' >> ~/.bash_profile
+        ```
+    - Apply changes
+        ```
+        source ~/.zshrc
+        ```
+        Or, if using Bash:
+        ```
+        source ~/.bash_profile
+        ```
+    - Verify installzation:
+        ```
+        java -version
+        ```
 
+### Download and install bazel
+
+**On Linux**
+Download bazel
 ```
 echo "deb http://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list
 curl https://storage.googleapis.com/bazel-apt/doc/apt-key.pub.gpg | sudo apt-key add -
@@ -31,22 +63,34 @@ sudo apt-get upgrade bazel
 
 For for information: [http://www.bazel.io/docs/install.html]
 
-## Install prerequisites
+**On Mac**
 
+```
+brew install bazel
+bazel version
+```
+
+## Install prerequisites
+**On Linux**
 ```
 sudo apt-get install libgoogle-glog-dev libgflags-dev libargtable2-dev cmake
 ```
 
+**On Mac**
+```
+brew install glog gflags argtable cmake
+```
+
 # Compile
 
-
+**On Linux**
 ```
 bazel build -c opt //... --cxxopt="-fopenmp" --linkopt="-fopenmp" --cxxopt="-DGTEST_HAS_TR1_TUPLE=0"
 ```
 
 In case you see an error, you may need to set java home by calling: export JAVA_HOME=/usr/lib/jvm/java-8-oracle
 
-On mac 2023-09-24:
+**On Mac 2023-09-24:**
 ```
 bazel build -c opt //... --cxxopt="-Xpreprocessor" --cxxopt="-fopenmp" --linkopt="-L/opt/homebrew/Cellar/libomp/17.0.1/lib" --linkopt="-lomp" --cxxopt="-DGTEST_HAS_TR1_TUPLE=0"
 ```
@@ -79,12 +123,13 @@ INFO: Build completed successfully, 21 total actions
 
 # Run tests
 
+**On Linux**
 ```
 bazel test -c opt //... --cxxopt="-fopenmp" --linkopt="-fopenmp" --cxxopt="-DGTEST_HAS_TR1_TUPLE=0"
 ```
 You can also use -c dbg instead of -c opt to run with debug version of the code.
 
-On mac 2023-09-24:
+**On Mac 2023-09-24:**
 ```
 bazel test -c opt //... --cxxopt="-Xpreprocessor" --cxxopt="-fopenmp" --linkopt="-L/opt/homebrew/Cellar/libomp/17.0.1/lib" --linkopt="-lomp" --cxxopt="-DGTEST_HAS_TR1_TUPLE=0"
 ```
