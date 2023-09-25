@@ -43,6 +43,7 @@ sudo apt-get install oracle-java8-installer
 ### Download and install bazel
 
 **On Linux**
+
 Download bazel
 ```
 echo "deb http://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list
